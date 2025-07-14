@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/jpeg" href="image/logo.jpeg">
+    <title>etherhub</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f8f9fa;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+
+            padding: 0 20px;
+
+        }
+
+        /* Header */
+        header {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: white;
+            padding: 0.5rem 0;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+      
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: #64b5f6;
+        }
+
+        /* Hero Section */
+        #hero-video {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: -1;
+        }
+
+        .hero {
+            color: white;
+            padding: 150px 0 100px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000"><circle cx="500" cy="500" r="400" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="2"/><circle cx="500" cy="500" r="300" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="2"/><circle cx="500" cy="500" r="200" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="2"/></svg>') center/cover;
+            opacity: 0.1;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            animation: fadeInUp 1s ease-out;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            animation: fadeInUp 1s ease-out 0.2s both;
+        }
+
+        .cta-button {
+            background: #2f32e9;
+            color: white;
+            padding: 15px 30px;
+            font-size: 1.1rem;
+            
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: bold;
+            display: inline-block;
+            transition: all 0.3s;
+            animation: fadeInUp 1s ease-out 0.4s both;
+        }
+
+        .cta-button:hover {
+           
+            background: #0f12db;
+
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(4, 3, 100, 0.4);
+        }
+
+        /* Services Section */
+        .services {
+            padding: 80px 0;
+            background: white;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 50px;
+            color: #2c3e50;
+            position: relative;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 3px;
+            background: #0f12db;
+        }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 50px;
+        }
+
+        .service-card {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            transition: all 0.3s;
+            border: 2px solid transparent;
+        }
+
+        .service-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+            border-color: #0f12db;
+        }
+
+        .service-icon {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+            font-size: 24px;
+            color: white;
+        }
+
+        .service-card h3 {
+            font-size: 1.3rem;
+            margin-bottom: 15px;
+            color: #2c3e50;
+        }
+
+        .service-card p {
+            color: #666;
+            line-height: 1.6;
+        }
+
+        /* About Section */
+        .about {
+            padding: 80px 0;
+            background: #f8f9fa;
+        }
+
+        .about-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 50px;
+            align-items: center;
+        }
+
+        .about-text h2 {
+            font-size: 2.2rem;
+            margin-bottom: 20px;
+            color: #2c3e50;
+        }
+
+        .about-text p {
+            color: #666;
+            margin-bottom: 20px;
+        }
+
+        .about-features {
+            list-style: none;
+            margin-top: 30px;
+        }
+
+        .about-features li {
+            padding: 10px 0;
+            padding-left: 30px;
+            position: relative;
+            color: #2c3e50;
+        }
+
+        .about-features li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: #0f12db;
+            font-weight: bold;
+        }
+
+        .about-image {
+          
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 3rem;
+        }
+       
+
+    
+
+        /* Contact Section */
+        .contact {
+            padding: 80px 0;
+            background: #2c3e50;
+            color: white;
+        }
+
+        .contact-content {
+            display: flex;
+            justify-content: center;
+            gap: 50px;
+        }
+
+        .contact-info {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+            width: 100%;
+            max-width: 800px;
+        }
+
+        .contact-info h3 {
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+        }
+
+        .contact-item {
+            display: flex;
+            flex-direction: row;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            transition: background 0.3s;
+            margin-bottom: 20px;
+
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .contact-item i {
+            width: 40px;
+            height: 40px;
+            background:  #0f12db;
+            border-radius: 50%;
+            display: flex;
+
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+        }
+
+     
+
+       
+  
+        /* Footer */
+        footer {
+            background: #1a1a1a;
+            color: white;
+            text-align: center;
+            padding: 30px 0;
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .services-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .about-content,
+            .contact-content {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav class="container">
+            <div class="logo">
+                <img src="image/logo.jpeg" alt="etherhub" style="width: 80px;height: 80px;border-radius: 50%">
+            </div>
+            <ul class="nav-links">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#services">Services</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section class="hero" id="home">
+            <video autoplay muted loop id="hero-video">
+                <source src="image/vid.mp4" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+            <div class="container">
+                <div class="hero-content">
+                    <h1>Professional Technology Solutions</h1>
+                    <p>Expert installation, repair, and maintenance services for all your technology needs</p>
+                    <a href="#contact" class="cta-button">Get Started Today</a>
+                </div>
+            </div>
+        </section>
+
+        <section class="services" id="services">
+            <div class="container">
+                <h2 class="section-title">Our Services</h2>
+                <div class="services-grid">
+                    <div class="service-card">
+                        <div class="service-icon">📹</div>
+                        <h3>CCTV Installation & Maintenance</h3>
+                        <p>Professional CCTV system installation, repair, and ongoing maintenance services to keep your property secure with high-quality surveillance solutions.</p>
+                    </div>
+                    <div class="service-card">
+                        <div class="service-icon">🌐</div>
+                        <h3>Computer Networking</h3>
+                        <p>Complete network setup, configuration, and troubleshooting services for businesses and homes, ensuring reliable and secure connectivity.</p>
+                    </div>
+                    <div class="service-card">
+                        <div class="service-icon">📡</div>
+                        <h3>Internet Services</h3>
+                        <p>High-speed internet installation, configuration, and optimization services to keep you connected with fast and reliable internet access.</p>
+                    </div>
+                    <div class="service-card">
+                        <div class="service-icon">🚨</div>
+                        <h3>Alarm Installation</h3>
+                        <p>Professional security alarm system installation and maintenance, providing 24/7 protection for your home or business premises.</p>
+                    </div>
+                    <div class="service-card">
+                        <div class="service-icon">👆</div>
+                        <h3>Biometric Systems</h3>
+                        <p>Advanced biometric access control systems including fingerprint, facial recognition, and iris scanning solutions for enhanced security.</p>
+                    </div>
+                    <div class="service-card">
+                        <div class="service-icon">🔐</div>
+                        <h3>Access Control Systems</h3>
+                        <p>Comprehensive access control solutions including card readers, keypads, and smart locks to manage and monitor building access.</p>
+                    </div>
+                    <div class="service-card">
+                        <div class="service-icon">🔧</div>
+                        <h3>Computer Repair</h3>
+                        <p>Expert computer repair and maintenance services for desktops, laptops, and servers, ensuring optimal performance and reliability.</p>
+                    </div>
+                    <div class="service-card">
+                        <div class="service-icon">⚡</div>
+                        <h3>Technology Consulting</h3>
+                        <p>Professional technology consulting services to help you choose the right solutions for your specific needs and budget requirements.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="about" id="about">
+            <div class="container">
+                <div class="about-content">
+                    <div class="about-text">
+                        <h2>Why Choose Etherhub?</h2>
+                        <p>With years of experience in the technology sector, we provide comprehensive solutions for all your technology needs. Our team of certified professionals ensures quality service delivery and customer satisfaction.</p>
+                        <p>We specialize in cutting-edge technology solutions that enhance security, improve connectivity, and streamline operations for businesses and homeowners alike.</p>
+                        <ul class="about-features">
+                            <li>24/7 emergency support available</li>
+                            <li>Competitive pricing with transparent quotes</li>
+                            <li>Quality assurance and warranty coverage</li>
+                            <li>Latest technology and equipment</li>
+                            <li>Customized solutions for every client</li>
+                        </ul>
+                    </div>
+                    <div class="about-image">
+                        <span>
+                            <img src="image/2.jpeg" alt="etherhub" style="width: 450px;height: 350px;border-radius: 5px">
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="contact" id="contact">
+            <div class="container">
+                <h2 class="section-title" style="color: white;">Get In Touch</h2>
+                <div class="contact-content">
+                    <div class="contact-info">
+                       
+                        <div class="contact-item">
+                            <i>📧</i>
+                            <div>
+                                <strong>Email:</strong><br>
+                                etherhub1@gmail.com
+                            </div>
+                        </div>
+                        <div class="contact-item">
+                            <i>📱</i>
+                            <div>
+                                <strong>Phone:</strong><br>
+                                +254700130040
+                            </div>
+                        </div>
+                        <div class="contact-item">
+                            <i>📍</i>
+                            <div>
+                                <strong>Address:</strong><br>
+                                wema business center ,Kakamega town, Kenya
+                            </div>
+                        </div>
+                        <div class="contact-item">
+                            <i>🕐</i>
+                            <div>
+                                <strong>Hours:</strong><br>
+                                Mon-Fri: 8AM-6PM<br>
+                                
+                            </div>
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; Etherhub. All rights reserved. | Professional Technology Services</p>
+        </div>
+    </footer>
+
+    <script>
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+
+        // Add scroll effect to header
+        window.addEventListener('scroll', function() {
+            const header = document.querySelector('header');
+            if (window.scrollY > 100) {
+                header.style.background = 'rgba(30, 60, 114, 0.95)';
+                header.style.backdropFilter = 'blur(10px)';
+            } else {
+                header.style.background = 'linear-gradient(135deg, #1e3c72 0%, #2a5298 100%)';
+                header.style.backdropFilter = 'none';
+            }
+        });
+
+        // Animate service cards on scroll
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver(function(entries) {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.animation = 'fadeInUp 0.6s ease-out forwards';
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.service-card').forEach(card => {
+            observer.observe(card);
+        });
+    </script>
+</body>
+</html>
