@@ -681,10 +681,10 @@
             observer.observe(card);
         });
 
-        // Star rating functionality
+        // Star rating functionality for the form
         let selectedRating = 0;
 
-        document.querySelectorAll('.star-rating .fa-star').forEach(star => {
+        document.querySelectorAll('#review-stars .fa-star').forEach(star => {
             star.addEventListener('mouseenter', function() {
                 const parent = this.parentElement;
                 const stars = parent.querySelectorAll('.fa-star');
@@ -751,6 +751,11 @@
             `;
 
             reviewSlider.appendChild(newReview);
+
+            // Limit the number of reviews to 3
+            while (reviewSlider.children.length > 3) {
+                reviewSlider.removeChild(reviewSlider.firstElementChild);
+            }
 
             // Reset form
             document.getElementById('review-form').reset();
