@@ -325,6 +325,101 @@
             padding: 30px 0;
         }
 
+        /* Reviews Section */
+        .reviews {
+            padding: 80px 0;
+            background: white;
+        }
+
+        .review-slider {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 50px;
+        }
+
+        .review-card {
+            background: #f8f9fa;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+            border: 2px solid transparent;
+            transition: all 0.3s;
+        }
+
+        .review-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            border-color: #0f12db;
+        }
+
+        .review-text {
+            font-style: italic;
+            color: #666;
+            margin-bottom: 20px;
+            line-height: 1.7;
+        }
+
+        .review-author {
+            font-weight: bold;
+            color: #2c3e50;
+            text-align: right;
+        }
+
+        .star-rating {
+            display: flex;
+            justify-content: flex-end;
+            margin-top: 15px;
+        }
+
+        .star-rating .fa-star {
+            color: #ddd;
+            cursor: pointer;
+            font-size: 1.2rem;
+            transition: color 0.2s;
+        }
+
+        .star-rating .fa-star.active,
+        .star-rating:hover .fa-star:hover,
+        .star-rating .fa-star:hover ~ .fa-star {
+            color: #f39c12;
+        }
+
+        .star-rating:hover .fa-star:hover ~ .fa-star {
+            color: #ddd;
+        }
+
+        .review-form-container {
+            margin-top: 50px;
+            padding: 30px;
+            background: #f8f9fa;
+            border-radius: 15px;
+        }
+
+        .review-form-container h3 {
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            color: #2c3e50;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 15px;
+            border-radius: 10px;
+            border: 1px solid #ddd;
+            font-size: 1rem;
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
         /* Animations */
         @keyframes fadeInUp {
             from {
@@ -357,6 +452,7 @@
             }
         }
     </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
     <header>
@@ -368,6 +464,7 @@
                 <li><a href="#home">Home</a></li>
                 <li><a href="#services">Services</a></li>
                 <li><a href="#about">About</a></li>
+                <li><a href="#reviews">Reviews</a></li>
                 <li><a href="#contact">Contact</a></li>
             </ul>
         </nav>
@@ -456,6 +553,36 @@
                             <img src="image/2.jpeg" alt="etherhub" style="width: 450px;height: 350px;border-radius: 5px">
                         </span>
                     </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="reviews" id="reviews">
+            <div class="container">
+                <h2 class="section-title">What Our Clients Say</h2>
+                <div class="review-slider">
+                    </div>
+
+                <div class="review-form-container">
+                    <h3>Leave a Review</h3>
+                    <form id="review-form">
+                        <div class="form-group">
+                            <input type="text" id="reviewer-name" placeholder="Your Name" required>
+                        </div>
+                        <div class="form-group">
+                            <textarea id="review-text" placeholder="Your Review" required></textarea>
+                        </div>
+                        <div class="form-group">
+                            <div class="star-rating" id="review-stars">
+                                <i class="fas fa-star" data-value="1"></i>
+                                <i class="fas fa-star" data-value="2"></i>
+                                <i class="fas fa-star" data-value="3"></i>
+                                <i class="fas fa-star" data-value="4"></i>
+                                <i class="fas fa-star" data-value="5"></i>
+                            </div>
+                        </div>
+                        <button type="submit" class="cta-button">Submit Review</button>
+                    </form>
                 </div>
             </div>
         </section>
@@ -550,8 +677,85 @@
             });
         }, observerOptions);
 
-        document.querySelectorAll('.service-card').forEach(card => {
+        document.querySelectorAll('.service-card, .review-card').forEach(card => {
             observer.observe(card);
+        });
+
+        // Star rating functionality
+        let selectedRating = 0;
+
+        document.querySelectorAll('.star-rating .fa-star').forEach(star => {
+            star.addEventListener('mouseenter', function() {
+                const parent = this.parentElement;
+                const stars = parent.querySelectorAll('.fa-star');
+                const rating = this.dataset.value;
+
+                stars.forEach((s, i) => {
+                    if (i < rating) {
+                        s.classList.add('active');
+                    } else {
+                        s.classList.remove('active');
+                    }
+                });
+            });
+
+            star.addEventListener('mouseleave', function() {
+                const parent = this.parentElement;
+                const stars = parent.querySelectorAll('.fa-star');
+
+                stars.forEach((s, i) => {
+                    if (i < selectedRating) {
+                        s.classList.add('active');
+                    } else {
+                        s.classList.remove('active');
+                    }
+                });
+            });
+
+            star.addEventListener('click', function() {
+                selectedRating = this.dataset.value;
+            });
+        });
+
+        // Review form submission
+        document.getElementById('review-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            const name = document.getElementById('reviewer-name').value;
+            const reviewText = document.getElementById('review-text').value;
+
+            if (selectedRating === 0) {
+                alert('Please select a star rating.');
+                return;
+            }
+
+            const reviewSlider = document.querySelector('.review-slider');
+            const newReview = document.createElement('div');
+            newReview.classList.add('review-card');
+
+            let stars = '';
+            for (let i = 0; i < 5; i++) {
+                if (i < selectedRating) {
+                    stars += '<i class="fas fa-star active"></i>';
+                } else {
+                    stars += '<i class="fas fa-star"></i>';
+                }
+            }
+
+            newReview.innerHTML = `
+                <p class="review-text">“${reviewText}”</p>
+                <div class="star-rating" data-rating="${selectedRating}">
+                    ${stars}
+                </div>
+                <p class="review-author">- ${name}</p>
+            `;
+
+            reviewSlider.appendChild(newReview);
+
+            // Reset form
+            document.getElementById('review-form').reset();
+            selectedRating = 0;
+            document.querySelectorAll('#review-stars .fa-star').forEach(s => s.classList.remove('active'));
         });
     </script>
 </body>
